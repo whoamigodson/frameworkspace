@@ -2,6 +2,9 @@ package org.yanfeilin.mybatisstudy.domain;
 
 import java.io.Serializable;
 
+import org.apache.ibatis.type.Alias;
+import org.yanfeilin.mybatisstudy.enums.GenderEnum;
+@Alias(value="user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,7 +18,12 @@ public class User implements Serializable {
 	private String nickname;
 	
 	private Short type;
-
+	
+	/**使用EnumOrdinalTypeHandler处理枚举类型*/
+	private PhoneNumber phoneNumber;
+	
+	private GenderEnum gender;
+	
 	public Long getId() {
 		return id;
 	}
@@ -26,6 +34,14 @@ public class User implements Serializable {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public GenderEnum getGender() {
+		return gender;
+	}
+
+	public void setGender(GenderEnum gender) {
+		this.gender = gender;
 	}
 
 	public void setUsername(String username) {
@@ -42,6 +58,14 @@ public class User implements Serializable {
 
 	public String getNickname() {
 		return nickname;
+	}
+
+	public PhoneNumber getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(PhoneNumber phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public void setNickname(String nickname) {

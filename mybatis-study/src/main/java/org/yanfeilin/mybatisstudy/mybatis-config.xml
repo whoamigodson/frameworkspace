@@ -4,9 +4,38 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<properties resource="db.properties"/>
+	<settings>
+		<!-- 指定 MyBatis 所用日志的具体实现，未指定时将自动查找。  -->
+		  <setting name="logImpl" value="SLF4J"/>
+		  <setting name="cacheEnabled" value="true"/>
+		  <setting name="lazyLoadingEnabled" value="true"/>
+		  <setting name="multipleResultSetsEnabled" value="true"/>
+		  <setting name="useColumnLabel" value="true"/>
+		  <setting name="useGeneratedKeys" value="false"/>
+		  <setting name="autoMappingBehavior" value="PARTIAL"/>
+		  <!-- <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/> -->
+		  <setting name="defaultExecutorType" value="SIMPLE"/>
+		  <setting name="defaultStatementTimeout" value="25000"/>
+		  <setting name="defaultFetchSize" value="100"/>
+		  <setting name="safeRowBoundsEnabled" value="false"/>
+		  <setting name="mapUnderscoreToCamelCase" value="false"/>
+		  <setting name="localCacheScope" value="SESSION"/>
+		  <setting name="jdbcTypeForNull" value="OTHER"/>
+		  <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+	</settings>
 	<typeAliases>
+		<typeAlias type="org.yanfeilin.mybatisstudy.enums.GenderEnum" alias="GenderEnum"/>
 		<package name="org.yanfeilin.mybatisstudy.domain"/>
 	</typeAliases>
+	<!-- typehandler是将pojo中某个java类型的字段转换为jdbc对应的类型，mybatis默认提供了许多种基础类型处理器,
+		 对于复杂的类型没有对应的处理器，需要我们自定义，例如PhoneTypeHandler就是将User中phoneNumber字段映射为
+		 varchar
+		 可以通过typeHandler的jdbcType和@MappedJdbcTypes来映射为某一jdbc类型
+		 -->
+	<typeHandlers>
+		<typeHandler handler="org.yanfeilin.mybatisstudy.typehandler.PhoneTypeHandler"/>
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="GenderEnum"/>
+	</typeHandlers>
 	  <environments default="development">
 	    <environment id="development">
 	      <transactionManager type="JDBC"/>
@@ -19,6 +48,7 @@
 	    </environment>
 	  </environments>
 	  <mappers>
-	    <mapper resource="org/yanfeilin/mybatisstudy/domain/UserMapper.xml"/>
+	    <!-- <mapper resource="org/yanfeilin/mybatisstudy/domain/UserMapper.xml"/> -->
+	    <package name="org.yanfeilin.mybatisstudy.mappers"/>
 	  </mappers>
 </configuration>

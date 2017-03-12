@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yanfeilin.mybatisstudy.mappers.UserMapper">
+  <select id="selectAllUser" resultMap="userResultMap">
+  	select * from t_user order by ${"u_id"} desc
+  </select>
+  
+  <select id="selectUserAsMap" resultType="hashmap">
+  	select * from t_user where u_id = #{id}
+  </select>
+  
+  <select id="selectUser" resultMap="userResultMap">
+    select * from t_user where u_id = #{id}
+  </select>
+  
+  <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="id" 
+  	keyColumn="u_id">
+	  insert into t_user(u_name,u_pwd,u_nickname,u_type,u_phone,u_gender) 
+	  values(#{username},#{password},#{nickname},#{type},#{phoneNumber},#{gender})
+  </insert>
+  
+  <resultMap type="user" id="userResultMap">
+  	<id property="id" column="u_id" />
+    <result property="username" column="u_name"/>
+    <result property="password" column="u_pwd"/>
+    <result property="nickname" column="u_nickname"/>
+    <result property="type" column="u_type"/>
+    <result property="phoneNumber" column="u_phone"/>
+    <result property="gender" column="u_gender"/>
+  </resultMap>
+</mapper>
