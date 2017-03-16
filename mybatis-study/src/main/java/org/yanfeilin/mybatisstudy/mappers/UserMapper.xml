@@ -3,6 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.yanfeilin.mybatisstudy.mappers.UserMapper">
+  <cache eviction="LRU" size="1024" readOnly="false"
+  	type="org.yanfeilin.mybatisstudy.cache.MyCustomCache">
+  	<property name="id" value="myCustomRedisCache"/>
+  </cache>
   <select id="selectAllUser" resultMap="userResultMap">
   	select * from t_user order by ${"u_id"} desc
   </select>
@@ -30,4 +34,5 @@
     <result property="phoneNumber" column="u_phone"/>
     <result property="gender" column="u_gender"/>
   </resultMap>
+  
 </mapper>
