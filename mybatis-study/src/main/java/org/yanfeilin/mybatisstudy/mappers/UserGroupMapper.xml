@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yanfeilin.mybatisstudy.mappers.UserGroupMapper">
+  <select id="findAllList" resultMap="userGroupMap">
+	select * from t_user_group order by id desc;
+  </select>
+  
+  <select id="findOne" resultMap="userGroupMap">
+    select 
+   		ug.id as id,
+        ug.user_id as user_id,
+        ug.group_id as group_id,
+        u.u_name as username,
+        u.u_pwd as password,
+        u.u_nickname as nickname,
+        u.u_type as type,
+        u.u_phone as phoneNumber,
+        g.name as name,
+        g.ucode as ucode,
+        g.description as description
+    from t_user_group ug left join t_user u 
+    on(ug.user_id=u.u_id) left join t_group g on(ug.group_id=g.id) where ug.id = #{id}
+  </select>
+  
+  <resultMap type="userGroup" id="userGroupMap">
+  	<id column="id" property="id"/>
+  	<association property="user" fetchType="eager" column="user_id" javaType="user">
+  		<id column="user_id" property="id"/>
+  		<result column="nickname" property="nickname"/>
+  	</association>
+  	<association property="group" fetchType="eager" column="group_id" javaType="group">
+  		<id column="group_id" property="id"/>
+  		<result column="name" property="name"/>
+  	</association>
+  </resultMap>
+  
+  <insert id="insert" parameterType="userGroup" keyProperty="id" useGeneratedKeys="true"
+  	keyColumn="id">
+	  insert into t_user_group(user_id,group_id) values(#{user.id},#{group.id})
+  </insert>
+  
+  <delete id="delete" parameterType="long" flushCache="true">
+  	delete from t_user_group where id=#{id}
+  </delete>
+</mapper>

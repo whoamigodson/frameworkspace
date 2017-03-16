@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yanfeilin.mybatisstudy.mappers.GroupMapper">
+  <select id="findAllList" resultType="group">
+	select * from t_group order by id desc;
+  </select>
+  
+  <select id="findOne" resultType="group">
+    select * from t_user where u_id = #{id}
+  </select>
+  
+  <insert id="insert" parameterType="group" keyProperty="id" useGeneratedKeys="true"
+  	keyColumn="id">
+	  insert into t_group(name,ucode,description) values(#{name},#{ucode},#{description})
+  </insert>
+  
+  <delete id="delete" parameterType="long" flushCache="true">
+  	delete from t_group where id=#{id}
+  </delete>
+</mapper>
